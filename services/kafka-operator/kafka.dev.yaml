@@ -1,0 +1,63 @@
+apiVersion: kafka.strimzi.io/v1alpha1
+kind: Kafka
+metadata:
+  name: kafka
+  namespace: dev
+spec:
+  entityOperator:
+    topicOperator:
+      resources:
+        limits:
+          cpu: 300m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+    userOperator:
+      resources:
+        limits:
+          cpu: 300m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+  kafka:
+    config:
+      auto.create.topics.enable: "false"
+      log.message.format.version: "2.0"
+    jvmOptions:
+      -Xms: 768m
+      -Xmx: 768m
+    listeners:
+      plain: {}
+      tls: {}
+    replicas: 3
+    resources:
+      limits:
+        cpu: 800m
+        memory: 2Gi
+      requests:
+        cpu: 200m
+        memory: 1Gi
+    storage:
+      class: gp2
+      deleteClaim: true
+      size: 10Gi
+      type: persistent-claim
+  zookeeper:
+    jvmOptions:
+      -Xms: 256m
+      -Xmx: 256m
+    replicas: 3
+    resources:
+      limits:
+        cpu: 800m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    storage:
+      class: gp2
+      deleteClaim: true
+      size: 2Gi
+      type: persistent-claim
